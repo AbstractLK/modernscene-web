@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { LoadingScreen } from "./components/LoadingScreen";
 import { Navigation } from "./components/Navigation";
 import { Hero } from "./components/Hero";
@@ -10,6 +11,7 @@ import { AmazingWork } from "./components/AmazingWork";
 import { Testimonials } from "./components/Testimonials";
 import { Contact } from "./components/Contact";
 import { Footer } from "./components/Footer";
+import { AdminPanel } from "./components/AdminPanel";
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -85,48 +87,56 @@ export default function App() {
   }
 
   return (
-    <>
-      <AnimatePresence mode="wait">
-        {isLoading && !hasError && (
-          <LoadingScreen key="loading" onComplete={handleLoadingComplete} />
-        )}
-      </AnimatePresence>
+    <Router>
+      <Routes>
+        <Route path="/admin" element={<AdminPanel />} />
+        <Route path="/" element={
+          <>
+            <AnimatePresence mode="wait">
+              {isLoading && !hasError && (
+                <LoadingScreen key="loading" onComplete={handleLoadingComplete} />
+              )}
+            </AnimatePresence>
 
-      <AnimatePresence>
-        {showMainContent && !hasError && (
-          <motion.div 
-            key="main-content"
-            variants={mainContentVariants}
-            initial="hidden"
-            animate="visible"
-            className="min-h-screen relative"
-          >
-            {/* Global background pattern */}
-            <div className="fixed inset-0 pointer-events-none z-0" style={{
-              backgroundImage: `radial-gradient(circle at 1px 1px, rgba(0,0,0,0.008) 1px, transparent 0)`,
-              backgroundSize: '20px 20px'
-            }}></div>
-            
-            <div className="relative z-10">
-              <Navigation />
-              
-              <main>
-                <section id="home">
-                  <Hero />
-                </section>
-                <About />
-                <Services />
-                <Portfolio />
-                <AmazingWork />
-                <Testimonials />
-                <Contact />
-              </main>
-              
-              <Footer />
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+            <AnimatePresence>
+              {showMainContent && !hasError && (
+                <motion.div 
+                  key="main-content"
+                  variants={mainContentVariants}
+                  initial="hidden"
+                  animate="visible"
+                  className="min-h-screen relative"
+                >
+                  {/* Global background pattern */}
+                  <div className="fixed inset-0 pointer-events-none z-0" style={{
+                    backgroundImage: `radial-gradient(circle at 1px 1px, rgba(0,0,0,0.008) 1px, transparent 0)`,
+                    backgroundSize: '20px 20px'
+                  }}></div>
+                  
+                  <div className="relative z-10">
+                    <Navigation />
+                    
+                    <main>
+                      <section id="home">
+                        <Hero />
+                      </section>
+                      <About />
+                      <Services />
+                      <Portfolio />
+                      <AmazingWork />
+                      <Testimonials />
+                      <Contact />
+                    </main>
+                    
+                    <Footer />
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </>
+        } />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Router>
   );
 }
