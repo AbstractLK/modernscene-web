@@ -1,7 +1,7 @@
 
-  # www.modernscene.lk
+  # Admin Panel Design
 
-  This is a code bundle for www.modernscene.lk. The original project is available at https://www.figma.com/design/rCLp6VP7glHYQav1rQPJkZ/www.modernscene.lk.
+  This is a code bundle for Admin Panel Design. The original project is available at https://www.figma.com/design/vnkPOpMolXqZ3mY8xGjuKb/Admin-Panel-Design.
 
   ## Running the code
 
