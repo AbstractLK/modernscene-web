@@ -20,6 +20,13 @@ export default function App() {
 
   // Handle initial page load with error handling
   useEffect(() => {
+    // Don't run loading logic for admin routes
+    if (window.location.pathname.startsWith('/admin')) {
+      setIsLoading(false);
+      setShowMainContent(true);
+      return;
+    }
+
     // Fallback timer in case loading takes too long
     const fallbackTimer = setTimeout(() => {
       if (isLoading) {
@@ -89,17 +96,17 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/admin" element={<AdminPanel />} />
+        <Route path="/admin/*" element={<AdminPanel />} />
         <Route path="/" element={
           <>
             <AnimatePresence mode="wait">
-              {isLoading && !hasError && (
+              {isLoading && !hasError && !window.location.pathname.startsWith('/admin') && (
                 <LoadingScreen key="loading" onComplete={handleLoadingComplete} />
               )}
             </AnimatePresence>
 
             <AnimatePresence>
-              {showMainContent && !hasError && (
+              {showMainContent && !hasError && !window.location.pathname.startsWith('/admin') && (
                 <motion.div 
                   key="main-content"
                   variants={mainContentVariants}
